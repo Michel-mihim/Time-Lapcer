@@ -1,8 +1,12 @@
 package com.practicum.timelapcer
 
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -13,6 +17,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -108,6 +113,18 @@ class MainActivity : AppCompatActivity() {
         val rootView = findViewById<View>(android.R.id.content)?.rootView
         if (rootView != null) {
             Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+        }
+        vibratePhone()
+
+    }
+
+    private fun vibratePhone() {
+        val vibrator = this@MainActivity.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+
+        if (Build.VERSION.SDK_INT >= 26) {
+            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            vibrator.vibrate(200)
         }
     }
 }
